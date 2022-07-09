@@ -13,9 +13,21 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(
           title: Text('앱임'),
-
         ),
         body: Text('안녕'),
+        bottomNavigationBar: BottomAppBar(
+          child: SizedBox(
+            height: 50,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Icon(Icons.phone),
+                Icon(Icons.message),
+                Icon(Icons.contact_page)
+              ],
+            ),
+          ),
+        ),
 
         ),
 
