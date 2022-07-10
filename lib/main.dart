@@ -12,17 +12,33 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(),
-        body: Align(
-          alignment: Alignment.topCenter,
-          child: Container(
-            width: double.infinity, height: 50,
-            decoration: BoxDecoration(
-              color: Colors.amber,
-              border: Border.all(color: Colors.pink),
-              borderRadius: BorderRadius.all(Radius.circular(23))
-            ),
+        body: Container(
+          height: 150,
+          padding: EdgeInsets.all(10),
+          child: Row(
+            children: [
+              Image.asset('free.jpg', width: 150,),
+              Container(
+                width: 300,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('캐논', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                    Text('10분전', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w100),),
+                    Text('0원'),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Icon(Icons.favorite),
+                        Text('4')
+                      ],
+                    )
+                  ],
+                ),
+              )
+            ],
           ),
-        )
+        ),
       )
     );
 }
