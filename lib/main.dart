@@ -14,6 +14,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   var a = 1; // statefulWidget 만들고 class 안에 변수만들면 됨
   var name = ['아줌마', '아저씨', '할머니'];
+  var like = [0, 0, 0];
   @override
   Widget build(BuildContext context) {
 
@@ -33,8 +34,16 @@ class _MyAppState extends State<MyApp> {
          itemBuilder: (c, i){
            print(i);
            return ListTile(
-             leading: Icon(Icons.account_circle_sharp),
              title: Text(name[i]),
+             leading: Text(like[i].toString()),
+             trailing:ElevatedButton(
+               child: Text('좋아요'),
+               onPressed: (){
+                 setState((){
+                   like[i]++;
+                 });
+             },),
+
              );
            },
        ),
