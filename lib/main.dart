@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 void main() {
   runApp(
@@ -17,6 +18,26 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+
+  getPermission() async {
+    var status = await Permission.contacts.status; // await : 오래걸리는 줄은 제껴두고 다음 줄 실행하려고 함
+    if (status.isGranted) {
+      print('허락됨');
+      Permission.contacts.request();
+    } else if (status.isDenied) {
+      print('거절됨');
+      Permission.contacts.request(); // 허락해달라고 팝업띄우는 코드
+      // openAppSettings(); // 거절 2번 당하면 다신 뜨지 않음(정책상) ㄷ ㄷ
+      // 그래서 거절당하면 유저가 앱설정 지가 직접 들어가서 권한 켜야함 그때 openAppSetting ㄱㄱ 하면될듯
+    }
+  }
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   // initState 안에 적은 코드는 위젯 로드될 때 한번 실행됨
+  //   getPermission();
+  // }
 
   // statefulWidget 만들고 class 안에 변수만들면 됨
   var name = ['아줌마', '아저씨', '할머니'];
@@ -55,7 +76,9 @@ class _MyAppState extends State<MyApp> {
             });
           }
         ),
-        appBar: AppBar( title: Text(total.toString()),),
+        appBar: AppBar( title: Text(total.toString()), actions: [
+          IconButton(onPressed: (){ getPermission(); }, icon: Icon(Icons.contacts))
+        ],),
         body: ListView.builder(
          itemCount: name.length,
          itemBuilder: (c, i){
