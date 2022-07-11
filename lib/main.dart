@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:contacts_service/contacts_service.dart';
 
 void main() {
   runApp(
@@ -23,7 +24,16 @@ class _MyAppState extends State<MyApp> {
     var status = await Permission.contacts.status; // await : 오래걸리는 줄은 제껴두고 다음 줄 실행하려고 함
     if (status.isGranted) {
       print('허락됨');
-      Permission.contacts.request();
+      var contacts = await ContactsService.getContacts();
+      // print(contacts[0].givenName); // 이름가져오기
+      // var newPerson = Contact();
+      // newPerson.givenName = 'minhee';
+      // newPerson.familyName = 'choi';
+      // await ContactsService.addContact(newPerson);
+      setState((){
+        name = contacts;
+      });
+
     } else if (status.isDenied) {
       print('거절됨');
       Permission.contacts.request(); // 허락해달라고 팝업띄우는 코드
@@ -40,7 +50,7 @@ class _MyAppState extends State<MyApp> {
   // }
 
   // statefulWidget 만들고 class 안에 변수만들면 됨
-  var name = ['아줌마', '아저씨', '할머니'];
+  var name = [];
   var like = [0, 0, 0];
   var total = 3;
 
@@ -84,7 +94,7 @@ class _MyAppState extends State<MyApp> {
          itemBuilder: (c, i){
            return ListTile(
              leading: Icon(Icons.account_circle_sharp),
-             title: Text(name[i]),
+             title: Text(name[i].givenName),
              );
            },
         ),
@@ -108,8 +118,10 @@ class DialogUI extends StatelessWidget {
           children: [
             TextField( controller: inputData,),
             TextButton( child: Text('완료'), onPressed: (){
-              addOne();
-              addName(inputData.text);
+              var newContact = Contact();
+              newContact.givenName = inputData.text; // 새로운 연락처 만들고
+              ContactsService.addContact(newContact); // 실제로 연락처에 집어넣기
+              addName(newContact); // name이라는 state에도 그냥 저장해줌 확인용
             },),
             TextButton(
               child: Text('취소'),
