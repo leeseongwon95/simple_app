@@ -50,7 +50,7 @@ class _MyAppState extends State<MyApp> {
   // }
 
   // statefulWidget 만들고 class 안에 변수만들면 됨
-  var name = [];
+  List<Contact> name = [];
   var like = [0, 0, 0];
   var total = 3;
 
@@ -94,7 +94,7 @@ class _MyAppState extends State<MyApp> {
          itemBuilder: (c, i){
            return ListTile(
              leading: Icon(Icons.account_circle_sharp),
-             title: Text(name[i].givenName),
+             title: Text(name[i].givenName ?? 'noName'), // null check
              );
            },
         ),
